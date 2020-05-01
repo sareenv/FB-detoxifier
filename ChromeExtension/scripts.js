@@ -21,14 +21,15 @@ function processInformation(data) {
     const posts = document.getElementsByTagName('p')
     for(p of posts) {
         for(d of data) {
-            if(p.innerText == Object.keys(d)[0]) {
-                if (Object.values(d)[0] == 1) {
-                    // code with hate or profanity
-                    p.style.border = 'thick solid red'
-                }else {
-                    p.style.border = 'thick solid black'
-                }
-            }
+            console.log(d)
+            // if(p.innerText == Object.keys(d)[0]) {
+            //     if (Object.values(d)[0] == 1) {
+            //         // code with hate or profanity
+            //         p.style.border = 'thick solid red'
+            //     }else {
+            //         p.style.border = 'thick solid black'
+            //     }
+            // }
         }
     }
 }
@@ -43,8 +44,7 @@ function gotMessage(message) {
         .then(
             response => response.json()
         ).then((response) => {
-            console.log(response)
-            // processInformation(response.data)
+            processInformation(response.analysis)
         })
         .catch((error) => {
             console.log(error.message)

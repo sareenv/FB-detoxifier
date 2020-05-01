@@ -11,7 +11,6 @@ router.post('/checkProfanity', (req, res) => {
 		const analysis = classifier.analysis()
 		analysisArray.push({analysis, 'sentence': feed})
 	})
-	console.log(analysisArray)
 	res.send(analysisArray)
 })
 
