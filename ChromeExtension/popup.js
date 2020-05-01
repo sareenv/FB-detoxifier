@@ -1,6 +1,5 @@
 
 const sendButton = document.getElementById('sendButton')
-const phoneNumberInput = document.getElementById('phoneNumber')
 
 sendButton.addEventListener('click', () => {
     chrome.tabs.query({

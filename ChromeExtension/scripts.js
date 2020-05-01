@@ -1,5 +1,6 @@
 
 const postData = []
+let startDetecting = false
 
 function detectPosts() {
     const posts = document.getElementsByTagName('p')
@@ -11,8 +12,12 @@ function detectPosts() {
 }
   
 window.addEventListener('scroll', (event) => {
-    detectPosts()
+    if(startDetecting === true) {
+        detectPosts()
+        gotMessage('sendData')
+    }
 })
+
 
 detectPosts()
 chrome.runtime.onMessage.addListener(gotMessage)
@@ -20,22 +25,25 @@ chrome.runtime.onMessage.addListener(gotMessage)
 function processInformation(data) {
     const posts = document.getElementsByTagName('p')
     for(p of posts) {
-        for(d of data) {
-            console.log(d)
-            // if(p.innerText == Object.keys(d)[0]) {
-            //     if (Object.values(d)[0] == 1) {
-            //         // code with hate or profanity
-            //         p.style.border = 'thick solid red'
-            //     }else {
-            //         p.style.border = 'thick solid black'
-            //     }
-            // }
+        if(p.innerText == data.sentence) {
+            console.log(data.analysis.analysis)
+            if(data.analysis.analysis === 'Negative') {
+                p.style.border = 'thick solid red'
+            }else if(data.analysis.analysis === 'Neutral') {
+                p.style.border = 'thick solid yellow'
+            }
+            else{
+                p.style.border = 'thick solid green'
+            }
+            
         }
     }
 }
 
+
 function gotMessage(message) {
     if(message == 'sendData') {
+        startDetecting = true
         const url = 'http://localhost:8080/checkProfanity'
         const data = JSON.stringify({'posts': postData})
         console.log(data)
@@ -44,7 +52,9 @@ function gotMessage(message) {
         .then(
             response => response.json()
         ).then((response) => {
-            processInformation(response.analysis)
+            for (r of response) {
+                processInformation(r)
+            }
         })
         .catch((error) => {
             console.log(error.message)
