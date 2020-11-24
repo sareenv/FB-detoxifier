@@ -1,4 +1,4 @@
-# Fb-Feed-Detoxifier
+# Feed-Detoxifier
 
 Facebook detoxifier is a chrome extension that I started developing during the COVHACK2020 hackathon to detect the facebook posts
 and send the contents to the REST API developed using Nodejs to perform the sentiment analysis and detect any profanity based
